@@ -124,6 +124,9 @@ class BKKPublicTransportSensor(Entity):
 
         bkkjson["stationName"] = bkkdata["data"]["references"]["stops"][self._stopid]["name"]
         bkkjson["vehicles"] = []
+        bkkjson["nextfavorite"] = ""
+        bkkjson["nextfavoritetime"] = ""
+        bkkjson["nextfavorite_unit_of_measurement"] = " min"
         bkkjson["unit_of_measurement"] = " min"
         failedNode = 0
 
@@ -230,6 +233,10 @@ class BKKPublicTransportSensor(Entity):
     @property
     def state(self):
         return self._nexttwotime
+
+    @property
+    def unique_id(self) -> str:
+        return self.entity_id
 
     @property
     def unique_id(self) -> str:
