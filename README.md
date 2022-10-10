@@ -65,3 +65,7 @@ Custom state card is provided for presenting data on legacy UI. Pls see the lega
 
 Lovelace UI:<br />
 ![bkk_stop Lovelace example](example/bkk_lovelace.jpg)
+
+Widgets:<br />
+![bkk_stop widget example for one favorite](example/widget.png)
+![bkk_stop widget example for multiple favorites](example/widget_multi.png)

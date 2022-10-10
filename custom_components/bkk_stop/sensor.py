@@ -28,11 +28,12 @@ CONF_ROUTES = 'routes'
 CONF_STOPID = 'stopId'
 CONF_MINSBEFORE = 'minsBefore'
 CONF_WHEELCHAIR = 'wheelchair'
+CONF_FAVORITES = 'favorites'
 
 DEFAULT_NAME = 'Budapest GO'
 DEFAULT_ICON = 'mdi:bus'
 
-SCAN_INTERVAL = timedelta(seconds=120)
+SCAN_INTERVAL = timedelta(seconds=30)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(ATTR_ENTITY_ID, default=''): cv.string,
@@ -110,6 +111,9 @@ class BKKPublicTransportSensor(Entity):
 
         bkkjson["stationName"] = bkkdata["data"]["references"]["stops"][self._stopid]["name"]
         bkkjson["vehicles"] = []
+        bkkjson["nextfavorite"] = ""
+        bkkjson["nextfavoritetime"] = ""
+        bkkjson["nextfavorite_unit_of_measurement"] = " min"
         failedNode = 0
 
         if len(bkkdata["data"]["entry"]["stopTimes"]) != 0:
@@ -193,6 +197,10 @@ class BKKPublicTransportSensor(Entity):
     @property
     def state(self):
         return self._state
+
+    @property
+    def unique_id(self) -> str:
+        return self.entity_id
 
     @property
     def unique_id(self) -> str:
