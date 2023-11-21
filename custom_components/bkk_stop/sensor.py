@@ -237,7 +237,3 @@ class BKKPublicTransportSensor(Entity):
     @property
     def unique_id(self) -> str:
         return self.entity_id
-
-    @property
-    def unique_id(self) -> str:
-        return self.entity_id
