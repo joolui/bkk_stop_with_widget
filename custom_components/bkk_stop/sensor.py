@@ -98,6 +98,8 @@ class BKKPublicTransportSensor(Entity):
         self._headsigns = headsigns
         self._minsbefore = minsbefore
         self._state = None
+        self._nexttwotime = ""
+        self._counterhelper = 0
         self._bkkdata = {}
         self._tz = pytz.timezone(hass.config.time_zone)
         self._icon = DEFAULT_ICON
@@ -110,6 +112,8 @@ class BKKPublicTransportSensor(Entity):
     def extra_state_attributes(self):
         bkkjson = {}
         bkkdata = self._bkkdata
+        self._counterhelper = 0
+        self._nexttwotime = ""
         itemnr = 0
 
         if 'status' in bkkdata:
@@ -120,9 +124,7 @@ class BKKPublicTransportSensor(Entity):
 
         bkkjson["stationName"] = bkkdata["data"]["references"]["stops"][self._stopid]["name"]
         bkkjson["vehicles"] = []
-        bkkjson["nextfavorite"] = ""
-        bkkjson["nextfavoritetime"] = ""
-        bkkjson["nextfavorite_unit_of_measurement"] = " min"
+        bkkjson["unit_of_measurement"] = " min"
         failedNode = 0
 
         if len(bkkdata["data"]["entry"]["stopTimes"]) != 0:
@@ -156,6 +158,9 @@ class BKKPublicTransportSensor(Entity):
             stopdata["attime"] = datetime.fromtimestamp(attime, self._tz).strftime('%H:%M')
             if predicted_attime:
                 stopdata["predicted_attime"] = datetime.fromtimestamp(predicted_attime, self._tz).strftime('%H:%M')
+            if (self._counterhelper < 2):
+                self._nexttwotime += " " + stopdata["in"]
+                self._counterhelper += 1
 
             if self._wheelchair:
                if 'wheelchairAccessible' in bkkdata["data"]["references"]["trips"][tripid]:
@@ -224,11 +229,7 @@ class BKKPublicTransportSensor(Entity):
 
     @property
     def state(self):
-        return self._state
-
-    @property
-    def unique_id(self) -> str:
-        return self.entity_id
+        return self._nexttwotime
 
     @property
     def unique_id(self) -> str:
