@@ -186,6 +186,9 @@ class BKKPublicTransportSensor(Entity):
 
         return bkkjson
 
+    def _sleep(secs):
+        time.sleep(secs)
+
     async def async_update(self):
         _session = async_get_clientsession(self._hass)
 
