@@ -30,7 +30,6 @@ CONF_ROUTES = 'routes'
 CONF_STOPID = 'stopId'
 CONF_MINSBEFORE = 'minsBefore'
 CONF_WHEELCHAIR = 'wheelchair'
-CONF_FAVORITES = 'favorites'
 
 DEFAULT_NAME = 'Budapest GO'
 DEFAULT_ICON = 'mdi:bus'
@@ -124,9 +123,6 @@ class BKKPublicTransportSensor(Entity):
 
         bkkjson["stationName"] = bkkdata["data"]["references"]["stops"][self._stopid]["name"]
         bkkjson["vehicles"] = []
-        bkkjson["nextfavorite"] = ""
-        bkkjson["nextfavoritetime"] = ""
-        bkkjson["nextfavorite_unit_of_measurement"] = " min"
         bkkjson["unit_of_measurement"] = " min"
         failedNode = 0
 
